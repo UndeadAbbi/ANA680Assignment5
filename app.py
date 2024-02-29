@@ -10,16 +10,22 @@ scaler = joblib.load('scaler.joblib')
 
 @app.route('/')
 def index():
-    return "Wine Quality Prediction Model"
+    return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
-        data = request.get_json(force=True)
-        features = np.array(feature_values).reshape(1, -1)
+    try:
+        features = [float(request.form[key]) for key in request.form.keys()]
+        
+        features[-1] = int(features[-1])
+        
+        features = np.array(features).reshape(1, -1)
         features_scaled = scaler.transform(features)
         
         prediction = model.predict(features_scaled)
-        return jsonify({'quality': prediction[0]})
+        return render_template('index.html', prediction=prediction[0])
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
