@@ -13,8 +13,8 @@ def predict():
         features = np.array(feature_values).reshape(1, -1)
         features_scaled = scaler.transform(features)
         
-         prediction = model.predict(features_scaled)
-         return jsonify({'quality': prediction[0]})
+        prediction = model.predict(features_scaled)
+        return jsonify({'quality': prediction[0]})
 
 if __name__ == '__main__':
     app.run(debug=True)
