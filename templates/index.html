@@ -49,5 +49,9 @@
 
         <input type="submit" value="Predict Quality">
     </form>
+
+    {% if prediction %}
+        <h3>Predicted Quality: {{ prediction }}</h3>
+    {% endif %}
 </body>
 </html>
